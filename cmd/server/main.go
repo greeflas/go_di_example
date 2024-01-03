@@ -1,0 +1,32 @@
+package main
+
+import (
+	"github.com/greeflas/go_di_example/internal/handler"
+	"github.com/greeflas/go_di_example/pkg/di"
+	"github.com/greeflas/go_di_example/pkg/server"
+	"go.uber.org/dig"
+	"log"
+)
+
+func main() {
+	if err := runApp(di.EnvProd); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func runApp(env di.Environment) error {
+	c := di.BuildContainer(env)
+	c = addAppSpecificDependencies(c)
+
+	return c.Invoke(func(apiServer *server.APIServer) error {
+		return apiServer.Start()
+	})
+}
+
+func addAppSpecificDependencies(container *dig.Container) *dig.Container {
+	container.Provide(handler.NewHelloHandler)
+	container.Provide(handler.NewEchoHandler)
+	container.Provide(server.NewAPIServer)
+
+	return container
+}
