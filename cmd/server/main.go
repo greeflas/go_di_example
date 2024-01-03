@@ -1,11 +1,12 @@
 package main
 
 import (
+	"log"
+
 	"github.com/greeflas/go_di_example/internal/handler"
 	"github.com/greeflas/go_di_example/pkg/di"
 	"github.com/greeflas/go_di_example/pkg/server"
 	"go.uber.org/dig"
-	"log"
 )
 
 func main() {

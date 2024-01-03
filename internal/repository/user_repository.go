@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+
 	"github.com/greeflas/go_di_example/internal/model"
 )
 

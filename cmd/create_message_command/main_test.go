@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/greeflas/go_di_example/pkg/di"
 	"testing"
+
+	"github.com/greeflas/go_di_example/pkg/di"
 )
 
 func TestRunCommand(t *testing.T) {

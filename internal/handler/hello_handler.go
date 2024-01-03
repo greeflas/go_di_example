@@ -2,10 +2,11 @@ package handler
 
 import (
 	"fmt"
-	"github.com/greeflas/go_di_example/internal/service"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/greeflas/go_di_example/internal/service"
 )
 
 type HelloHandler struct {

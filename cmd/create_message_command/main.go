@@ -2,11 +2,12 @@ package main
 
 import (
 	"errors"
+	"log"
+	"os"
+
 	"github.com/greeflas/go_di_example/internal/model"
 	"github.com/greeflas/go_di_example/internal/repository"
 	"github.com/greeflas/go_di_example/pkg/di"
-	"log"
-	"os"
 )
 
 func main() {

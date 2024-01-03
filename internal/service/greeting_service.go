@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+
 	"github.com/greeflas/go_di_example/internal/repository"
 )
 

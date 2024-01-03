@@ -1,11 +1,12 @@
 package di
 
 import (
+	"log"
+
 	"github.com/greeflas/go_di_example/internal/repository"
 	"github.com/greeflas/go_di_example/internal/service"
 	"github.com/greeflas/go_di_example/pkg/db"
 	"go.uber.org/dig"
-	"log"
 )
 
 type Environment int

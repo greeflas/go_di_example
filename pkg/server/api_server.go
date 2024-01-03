@@ -1,9 +1,10 @@
 package server
 
 import (
-	"github.com/greeflas/go_di_example/internal/handler"
 	"log"
 	"net/http"
+
+	"github.com/greeflas/go_di_example/internal/handler"
 )
 
 type APIServer struct {
