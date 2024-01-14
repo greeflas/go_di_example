@@ -17,17 +17,16 @@ func main() {
 
 func runApp(env di.Environment) error {
 	c := di.BuildContainer(env)
-	c = addAppSpecificDependencies(c)
+	serverScope := addAppSpecificDependencies(c)
 
-	return c.Invoke(func(apiServer *server.APIServer) error {
+	return serverScope.Invoke(func(apiServer *server.APIServer) error {
 		return apiServer.Start()
 	})
 }
 
-func addAppSpecificDependencies(container *dig.Container) *dig.Container {
+func addAppSpecificDependencies(container *dig.Container) *dig.Scope {
 	container.Provide(handler.NewHelloHandler, dig.As(new(server.Handler)), dig.Group("handlers"))
 	container.Provide(handler.NewEchoHandler, dig.As(new(server.Handler)), dig.Group("handlers"))
-	container.Provide(server.NewAPIServer)
 
 	container.Decorate(func(logger *log.Logger) *log.Logger {
 		logger.SetPrefix("[server] ")
@@ -35,5 +34,8 @@ func addAppSpecificDependencies(container *dig.Container) *dig.Container {
 		return logger
 	})
 
-	return container
+	serverScope := container.Scope("api_server")
+	serverScope.Provide(server.NewAPIServer)
+
+	return serverScope
 }
