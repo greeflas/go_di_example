@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 
+	"go.uber.org/dig"
+
 	"github.com/greeflas/go_di_example/internal/model"
 	"github.com/greeflas/go_di_example/internal/repository"
 	"github.com/greeflas/go_di_example/pkg/di"
@@ -24,6 +26,10 @@ func runCommand(env di.Environment) error {
 
 		return logger
 	})
+
+	if err := dig.Visualize(c, os.Stdout); err != nil {
+		return err
+	}
 
 	return c.Invoke(func(messageRepository *repository.MessageRepository) error {
 		if len(os.Args) < 2 {

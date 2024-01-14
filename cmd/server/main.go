@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/greeflas/go_di_example/internal/handler"
 	"github.com/greeflas/go_di_example/pkg/di"
@@ -19,9 +20,15 @@ func runApp(env di.Environment) error {
 	c := di.BuildContainer(env)
 	serverScope := addAppSpecificDependencies(c)
 
-	return serverScope.Invoke(func(apiServer *server.APIServer) error {
+	if err := dig.Visualize(c, os.Stdout); err != nil {
+		return err
+	}
+
+	err := serverScope.Invoke(func(apiServer *server.APIServer) error {
 		return apiServer.Start()
 	})
+
+	return err
 }
 
 func addAppSpecificDependencies(container *dig.Container) *dig.Scope {
