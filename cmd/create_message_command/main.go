@@ -19,6 +19,12 @@ func main() {
 func runCommand(env di.Environment) error {
 	c := di.BuildContainer(env)
 
+	c.Decorate(func(logger *log.Logger) *log.Logger {
+		logger.SetPrefix("[server] ")
+
+		return logger
+	})
+
 	return c.Invoke(func(messageRepository *repository.MessageRepository) error {
 		if len(os.Args) < 2 {
 			return errors.New("pattern arg is required")

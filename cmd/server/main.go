@@ -29,5 +29,11 @@ func addAppSpecificDependencies(container *dig.Container) *dig.Container {
 	container.Provide(handler.NewEchoHandler, dig.As(new(server.Handler)), dig.Group("handlers"))
 	container.Provide(server.NewAPIServer)
 
+	container.Decorate(func(logger *log.Logger) *log.Logger {
+		logger.SetPrefix("[server] ")
+
+		return logger
+	})
+
 	return container
 }
