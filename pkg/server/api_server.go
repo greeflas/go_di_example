@@ -4,8 +4,19 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/greeflas/go_di_example/internal/handler"
+	"go.uber.org/dig"
 )
+
+type Handler interface {
+	http.Handler
+	Pattern() string
+}
+
+type APIServerParams struct {
+	dig.In
+
+	Handlers []Handler `group:"handlers"`
+}
 
 type APIServer struct {
 	logger     *log.Logger
@@ -14,12 +25,12 @@ type APIServer struct {
 
 func NewAPIServer(
 	logger *log.Logger,
-	helloHandler *handler.HelloHandler,
-	echoHandler *handler.EchoHandler,
+	params APIServerParams,
 ) *APIServer {
 	mux := http.NewServeMux()
-	mux.Handle(helloHandler.Pattern(), helloHandler)
-	mux.Handle(echoHandler.Pattern(), echoHandler)
+	for _, handler := range params.Handlers {
+		mux.Handle(handler.Pattern(), handler)
+	}
 
 	return &APIServer{
 		logger: logger,

@@ -25,8 +25,8 @@ func runApp(env di.Environment) error {
 }
 
 func addAppSpecificDependencies(container *dig.Container) *dig.Container {
-	container.Provide(handler.NewHelloHandler)
-	container.Provide(handler.NewEchoHandler)
+	container.Provide(handler.NewHelloHandler, dig.As(new(server.Handler)), dig.Group("handlers"))
+	container.Provide(handler.NewEchoHandler, dig.As(new(server.Handler)), dig.Group("handlers"))
 	container.Provide(server.NewAPIServer)
 
 	return container
